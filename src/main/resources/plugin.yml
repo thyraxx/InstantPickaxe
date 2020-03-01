@@ -1,0 +1,14 @@
+name: 'InstantPickaxe'
+version: '0.1'
+author: 'Thyraxx'
+main: 'me.thyraxx.InstantPickaxe'
+api-version: '1.15'
+#depend: //tell the server that an external plugin must be loaded before your plugin can be loaded
+#website: //your website appear with /version <pluginname>
+commands:
+  ip:
+    description: Turn InstantPickaxe On/Off
+    usage: /ip
+  blacklist:
+    description: Blacklist blocks so IP doesnt work on those, uses block id's
+    usage: /ip blacklist add
