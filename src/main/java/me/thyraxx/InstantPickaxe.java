@@ -13,7 +13,8 @@ public class InstantPickaxe extends JavaPlugin {
         getServer().getPluginManager().registerEvents(new IPListener(), this);
 
         this.getCommand("ip").setExecutor(new IPCommand());
-        this.getCommand("blacklist").setExecutor(new IPCommand());
+//        this.getCommand("blacklist").setExecutor(new IPCommand());
+        this.getCommand("ip").setTabCompleter(new IPTabCompletion());
 
         getLogger().log(Level.WARNING, getServer().getPluginManager().getPlugins().toString());
 //        FileConfiguration fileConfig = this.getConfig();

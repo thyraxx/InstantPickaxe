@@ -1,11 +1,9 @@
 package me.thyraxx;
 
 import org.bukkit.ChatColor;
-import org.bukkit.Material;
 import org.bukkit.command.Command;
 import org.bukkit.command.CommandExecutor;
 import org.bukkit.command.CommandSender;
-import org.bukkit.configuration.file.FileConfiguration;
 import org.bukkit.entity.Player;
 
 import java.util.logging.Level;
@@ -15,9 +13,18 @@ import static org.bukkit.Bukkit.getLogger;
 public class IPCommand implements CommandExecutor {
 
     public boolean onCommand(CommandSender commandSender, Command command, String s, String[] strings) {
-        getLogger().log(Level.WARNING, s);
 
-        if (s.equals("ip")) {
+
+        if (s.equalsIgnoreCase("ip")) {
+//            if (strings[0].equalsIgnoreCase("blacklist")) {
+//                getLogger().log(Level.WARNING, "");
+//
+//
+//                return true;
+//            }
+
+//            getLogger().log(Level.WARNING, strings.toString());
+
             if (commandSender instanceof Player) {
 
                 Player player = (Player) commandSender;
@@ -33,13 +40,13 @@ public class IPCommand implements CommandExecutor {
             }
         }
 
-        if (s.equals("blacklist") && strings[0].equals("add") && strings[1].length() != 0) {
-            //TODO: This is error prone, how to fix?
-            Material material = Material.matchMaterial(strings[1]);
-
-
-            return true;
-        }
+//        if (s.equals("blacklist") && strings[0].equals("add") && strings[1].length() != 0) {
+//            //TODO: This is error prone, fix
+//            Material material = Material.matchMaterial(strings[1]);
+//            getLogger().log(Level.WARNING, strings.toString());
+//
+//            return true;
+//        }
 
         return false;
     }

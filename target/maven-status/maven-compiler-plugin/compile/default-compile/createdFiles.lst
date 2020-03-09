@@ -1,5 +1,6 @@
-me\thyraxx\IPListener.class
 me\thyraxx\InstantPickaxe.class
 me\thyraxx\PlayerUUIDList.class
 me\thyraxx\IPCommand.class
+me\thyraxx\IPTabCompletion.class
+me\thyraxx\IPListener.class
 me\thyraxx\IPBlackList.class

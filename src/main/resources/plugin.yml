@@ -11,4 +11,4 @@ commands:
     usage: /ip
   blacklist:
     description: Blacklist blocks so IP doesnt work on those, uses block id's
-    usage: /ip blacklist add
+    usage: /ip blacklist
