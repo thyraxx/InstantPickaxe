@@ -1,25 +1,42 @@
 package me.thyraxx;
 
-import com.google.gson.Gson;
-import com.google.gson.JsonObject;
-import org.bukkit.block.Block;
+import org.bukkit.Material;
 import org.bukkit.configuration.file.FileConfiguration;
+import org.bukkit.configuration.file.YamlConfiguration;
 
+import java.io.File;
 import java.io.FileNotFoundException;
 import java.io.IOException;
+import java.util.Collection;
 import java.util.HashSet;
 import java.util.Set;
 
 public class IPBlackList {
 
-    private static Set<Block> blockBlackList = new HashSet<Block>();
+    private File file = new File(InstantPickaxe.getPlugin(InstantPickaxe.class).getDataFolder() + File.separator + "config.yml");
 
-    public void addBlockToBlackList(Block block){
-        blockBlackList.add(block);
-    }
+    public static Set<Material> blockBlackList = new HashSet<Material>();
 
-    public Set<Block> getBlockBlackList(){
-        return blockBlackList;
+    public void addBlockToBlackList(Material material) {
+        FileConfiguration config = YamlConfiguration.loadConfiguration(file);
+
+        Collection<String> list = config.getStringList("blacklist");
+        if (!list.contains(material.toString())) {
+
+            list.add(material.toString());
+            config.set("blacklist", list);
+
+            try {
+                config.save(file);
+            } catch (IOException e) {
+                e.printStackTrace();
+            }
+        }
+        blockBlackList.clear();
+
+        for (String materialName : list) {
+            blockBlackList.add(Material.getMaterial(materialName));
+        }
     }
 
     public void saveBlockBlackListToJSON() throws IOException {

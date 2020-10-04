@@ -9,6 +9,17 @@ commands:
   ip:
     description: Turn InstantPickaxe On/Off
     usage: /ip
+    permission: instantpickaxe.ip
+    permission-message: You don't have the permission <permission>
   blacklist:
     description: Blacklist blocks so IP doesnt work on those, uses block id's
     usage: /ip blacklist
+    permission: instantpickaxe.blacklist
+    permission-message: You don't have the permission <permission>
+
+permissions:
+  instantpickaxe.*:
+    children:
+      instantpickaxe.ip: false
+      instantpickaxe.blacklist: false
+

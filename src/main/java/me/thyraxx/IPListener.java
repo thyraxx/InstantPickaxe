@@ -4,6 +4,7 @@ import org.bukkit.Material;
 import org.bukkit.enchantments.Enchantment;
 import org.bukkit.entity.Player;
 import org.bukkit.event.EventHandler;
+import org.bukkit.event.EventPriority;
 import org.bukkit.event.Listener;
 import org.bukkit.event.block.BlockDamageEvent;
 import org.bukkit.inventory.ItemStack;
@@ -18,7 +19,7 @@ public class IPListener implements Listener {
 
     private int unbreakingLevel = 0;
 
-    @EventHandler
+    @EventHandler(priority = EventPriority.LOWEST)
     public void onBlockDamageEvent(BlockDamageEvent event) {
         Player player = event.getPlayer();
         ItemStack getItemInMainHand = player.getInventory().getItemInMainHand();
@@ -28,6 +29,7 @@ public class IPListener implements Listener {
         if (itemMeta instanceof Damageable) {
             Damageable damageable = (Damageable) itemMeta;
 
+            // TODO: maybe separate this in a player class?
             boolean hasPickaxeInMainHand = (pickaxeType == Material.WOODEN_PICKAXE)
                     || (pickaxeType == Material.STONE_PICKAXE)
                     || (pickaxeType == Material.IRON_PICKAXE)
@@ -41,15 +43,36 @@ public class IPListener implements Listener {
                         this.unbreakingLevel = getItemInMainHand.getEnchantmentLevel(Enchantment.DURABILITY);
                     }
 
+                    // TODO: Should be tested properly, should work with exceeding vanilla levels
                     int damageChance = (100 / (this.unbreakingLevel + 1));
-                    if (damageChance < (int) (Math.random() * 100)) {
+
+                    // TODO: Remove logging
+//                    getLogger().log(Level.WARNING, "" + damageChance);
+//                    getLogger().log(Level.WARNING, "" + (int) (Math.random() * 101));
+//                    getLogger().log(Level.WARNING, "" + (damageChance > (int) (Math.random() * 100)));
+
+                    if ((this.unbreakingLevel + 1) == 1 || damageChance > (int) (Math.random() * 100)) {
                         getLogger().log(Level.WARNING, "damaged");
                         damageable.setDamage(damageable.getDamage() + 1);
                         getItemInMainHand.setItemMeta(itemMeta);
                     }
 
-                    event.setInstaBreak(true);
-                    event.getBlock().breakNaturally();
+                    // TODO: Remove logging
+                    //  Log all blocks
+//                    for(Material mats : IPBlackList.blockBlackList){
+//                        getLogger().log(Level.WARNING, mats.toString());
+//                    }
+
+                    if (IPBlackList.blockBlackList.contains(event.getBlock().getType())) {
+                        event.setInstaBreak(false);
+                    } else {
+                        if (!getItemInMainHand.containsEnchantment(Enchantment.SILK_TOUCH)) {
+                            event.getBlock().breakNaturally(new ItemStack(event.getBlock().getType(), 4));
+                        } else {
+                            getLogger().log(Level.WARNING, "" + event.getBlock().getType());
+                            event.getBlock().breakNaturally();
+                        }
+                    }
                 } else {
                     event.setInstaBreak(false);
                 }
